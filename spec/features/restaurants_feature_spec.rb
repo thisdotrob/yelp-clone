@@ -19,7 +19,8 @@ require 'rails_helper'
         expect(page).to have_content('KFC')
         expect(page).not_to have_content('No restaurants yet!')
       end
-      end
+    end
+
     context 'creating restaurants' do
       scenario 'prompts user to fill out a form, then displays the new restaurant' do
         visit '/restaurants'
@@ -30,4 +31,15 @@ require 'rails_helper'
         expect(current_path).to eq '/restaurants'
       end
     end
+
+    context 'viewing restaurants' do
+      let!(:kfc){Restaurant.create(name:'KFC')}
+      scenario 'lets user view a restaurant' do
+        visit '/restaurants'
+        click_link 'KFC'
+        expect(page).to have_content 'KFC'
+        expect(current_path).to eq "/restaurants/#{kfc.id}"
+      end
+    end
+
   end
