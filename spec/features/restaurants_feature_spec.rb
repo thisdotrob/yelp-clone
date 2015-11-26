@@ -58,11 +58,13 @@ feature 'restaurants' do
       end
     end
 
-    context 'editing restaurants' do
+    context 'editing and deleting restaurants' do
+
       before do
         user = User.create(:email => 'test@example.com', :password => 'password', :password_confirmation => 'password')
         Restaurant.create(name: 'KFC', user: user)
       end
+
       scenario 'let a user edit a restaurant' do
         signin
         click_link 'Edit KFC'
@@ -71,17 +73,13 @@ feature 'restaurants' do
         expect(page).to have_content 'Kentucky Fried Chicken'
         expect(current_path).to eq '/restaurants'
       end
-    end
 
-    context 'deleting restaurants' do
-      before { Restaurant.create(name: 'KFC', user: User.create) }
       scenario 'removes a restaurant when a user clicks a delete link' do
-        signup
+        signin
         visit '/restaurants'
         click_link 'Delete KFC'
         expect(page).not_to have_content 'KFC'
         expect(page).to have_content 'Restaurant deleted successfully'
       end
     end
-
   end
