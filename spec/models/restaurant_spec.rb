@@ -8,7 +8,7 @@ describe Restaurant, type: :model do
   end
 
   it 'is not valid unless it has a unique name' do
-    Restaurant.create(name: "City Wok")
+    Restaurant.create(name: "City Wok", user: User.create)
     restaurant = Restaurant.new(name: "City Wok")
     expect(restaurant).to have(1).error_on(:name)
   end

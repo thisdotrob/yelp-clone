@@ -9,11 +9,8 @@ feature 'restaurants' do
     end
 
     context 'restaurants have been added' do
-      before do
-        Restaurant.create( name: 'KFC')
-      end
-
-      scenario 'display restaruants' do
+      before { Restaurant.create(name: 'KFC', user: User.create) }
+      scenario 'display restaurants' do
         visit '/restaurants'
         expect(page).to have_content('KFC')
         expect(page).not_to have_content('No restaurants yet!')
@@ -52,7 +49,7 @@ feature 'restaurants' do
     end
 
     context 'viewing restaurants' do
-      let!(:kfc){Restaurant.create(name:'KFC')}
+      let!(:kfc){Restaurant.create(name: 'KFC', user: User.create)}
       scenario 'lets user view a restaurant' do
         visit '/restaurants'
         click_link 'KFC'
@@ -62,10 +59,12 @@ feature 'restaurants' do
     end
 
     context 'editing restaurants' do
-      before { Restaurant.create name: 'KFC'}
+      before do
+        user = User.create(:email => 'test@example.com', :password => 'password', :password_confirmation => 'password')
+        Restaurant.create(name: 'KFC', user: user)
+      end
       scenario 'let a user edit a restaurant' do
-        signup
-        visit '/restaurants'
+        signin
         click_link 'Edit KFC'
         fill_in 'Name', with: 'Kentucky Fried Chicken'
         click_button 'Update Restaurant'
@@ -75,7 +74,7 @@ feature 'restaurants' do
     end
 
     context 'deleting restaurants' do
-      before { Restaurant.create name: 'KFC' }
+      before { Restaurant.create(name: 'KFC', user: User.create) }
       scenario 'removes a restaurant when a user clicks a delete link' do
         signup
         visit '/restaurants'

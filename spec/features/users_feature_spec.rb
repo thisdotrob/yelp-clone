@@ -35,4 +35,14 @@ feature "User can sign in and out" do
       expect(page).not_to have_link('Sign up')
     end
   end
+
+  context "editing restaurants" do
+    it "is only possible for the author" do
+      signup_add_restaurant_and_signout
+      signup("test2@example.com")
+      visit '/restaurants'
+      expect(page).not_to have_link('Edit KFC')
+    end
+
+  end
 end
