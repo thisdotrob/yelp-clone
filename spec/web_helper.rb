@@ -23,3 +23,11 @@ def signup_add_restaurant_and_signout
   click_button 'Create Restaurant'
   click_link('Sign out')
 end
+
+def review
+  visit '/restaurants'
+  click_link 'Review KFC'
+  fill_in "Thoughts", with: "so so"
+  select '3', from: 'Rating'
+  click_button 'Leave Review'
+end

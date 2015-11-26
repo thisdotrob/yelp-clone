@@ -1,4 +1,5 @@
 class ReviewsController < ApplicationController
+
   def new
     @restaurant = Restaurant.find(params[:restaurant_id])
     @review = Review.new
@@ -6,7 +7,9 @@ class ReviewsController < ApplicationController
 
   def create
     @restaurant = Restaurant.find(params[:restaurant_id])
-    @restaurant.reviews.create(review_params)
+    @review = Review.new(review_params)
+    @review.user = current_user
+    @restaurant.reviews << @review
     redirect_to restaurants_path
   end
 

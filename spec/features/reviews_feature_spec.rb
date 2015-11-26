@@ -2,14 +2,15 @@ feature 'reviewing' do
   before {Restaurant.create name: 'KFC', user: User.create}
 
   scenario 'allows users to leave a review using a form' do
-
-    visit '/restaurants'
-    click_link 'Review KFC'
-    fill_in "Thoughts", with: "so so"
-    select '3', from: 'Rating'
-    click_button 'Leave Review'
-
+    signup
+    review
     expect(current_path).to eq '/restaurants'
     expect(page).to have_content('so so')
+  end
+
+  scenario 'user can not leave more than one review per restaurant' do
+    signup
+    review
+    expect(page).not_to have_link 'Review KFC'
   end
 end
