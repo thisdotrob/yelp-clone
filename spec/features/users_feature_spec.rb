@@ -49,8 +49,27 @@ feature "User can sign in and out" do
     it "is only possible for the author" do
       signup_add_restaurant_and_signout
       signup("test2@example.com")
-      visit '/restaurants'
+      # visit '/restaurants'
       expect(page).not_to have_link('Delete KFC')
+    end
+  end
+
+  context "deleting reviews" do
+    it "is possible" do
+      signup_add_restaurant_and_signout
+      signin
+      review
+      click_link 'Delete KFC review'
+      expect(page).not_to have_content 'so so'
+    end
+
+    it "is only possible by the author of the review" do
+      signup_add_restaurant_and_signout
+      signin
+      review
+      click_link('Sign out')
+      signup("test4@example.com")
+      expect(page).not_to have_link 'Delete KFC review'
     end
   end
 end

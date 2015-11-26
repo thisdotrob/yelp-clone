@@ -20,4 +20,8 @@ class User < ActiveRecord::Base
     self.reviewed_restaurants.include?(restaurant) == false
   end
 
+  def authored(review)
+    self == review.user
+  end
+
 end
