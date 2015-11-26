@@ -24,10 +24,10 @@ def signup_add_restaurant_and_signout
   click_link('Sign out')
 end
 
-def review
+def review(thoughts = 'so so', rating = 3)
   visit '/restaurants'
   click_link 'Review KFC'
-  fill_in "Thoughts", with: "so so"
-  select '3', from: 'Rating'
+  fill_in "Thoughts", with: thoughts
+  select rating, from: 'Rating'
   click_button 'Leave Review'
 end
