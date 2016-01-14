@@ -20,7 +20,7 @@ feature 'reviewing' do
     click_link('Sign out')
     signup('test2@example.com')
     review('great', '5');
-    expect(page).to have_content('Average rating: ★★★★☆')
+    expect(page).to have_content('Average rating: 4')
   end
 
 end
